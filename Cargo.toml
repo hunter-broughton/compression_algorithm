@@ -1,0 +1,9 @@
+[package]
+name = "compression_algorithm"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "A compression algorithm implementation in Rust"
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
