@@ -1,9 +1,42 @@
 use leptos::prelude::*;
+use leptos::task::spawn_local;
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
+
+#[cfg(feature = "ssr")]
+use compression_algorithm::compression::{huffman::HuffmanCoding, CompressionAlgorithm};
+
+#[server(CompressText, "/api")]
+pub async fn compress_text(text: String) -> Result<String, ServerFnError> {
+    use compression_algorithm::compression::{huffman::HuffmanCoding, CompressionAlgorithm};
+    
+    let huffman = HuffmanCoding;
+    let input_bytes = text.into_bytes();
+    let input_size = input_bytes.len();
+    
+    match huffman.compress(&input_bytes) {
+        Ok(compressed) => {
+            let compressed_size = compressed.len();
+            let reduction_ratio = if input_size > 0 {
+                ((input_size as f64 - compressed_size as f64) / input_size as f64) * 100.0
+            } else {
+                0.0
+            };
+            
+            Ok(format!(
+                "Original size: {} bytes\nCompressed size: {} bytes\nReduction: {:.2}%\n\nCompressed data (hex): {}",
+                input_size,
+                compressed_size,
+                reduction_ratio,
+                compressed.iter().map(|b| format!("{:02x}", b)).collect::<Vec<_>>().join(" ")
+            ))
+        }
+        Err(e) => Err(ServerFnError::ServerError(format!("Compression failed: {}", e))),
+    }
+}
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -97,10 +130,26 @@ fn HomePage() -> impl IntoView {
                                 class="btn-primary"
                                 class:processing={move || is_processing.get()}
                                 on:click=move |_| {
+                                    let content = file_content.get();
+                                    if content.trim().is_empty() {
+                                        compression_result.set(Some("Error: Please enter some text to compress!".to_string()));
+                                        return;
+                                    }
+                                    
                                     is_processing.set(true);
-                                    // TODO: Call our Rust compression backend
-                                    compression_result.set(Some("Compression simulated - 58% reduction!".to_string()));
-                                    is_processing.set(false);
+                                    
+                                    // Call the server function to compress the text
+                                    spawn_local(async move {
+                                        match compress_text(content).await {
+                                            Ok(result) => {
+                                                compression_result.set(Some(result));
+                                            }
+                                            Err(e) => {
+                                                compression_result.set(Some(format!("Error: {}", e)));
+                                            }
+                                        }
+                                        is_processing.set(false);
+                                    });
                                 }
                             >
                                 {move || if is_processing.get() { "PROCESSING..." } else { "COMPRESS" }}

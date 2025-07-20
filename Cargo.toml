@@ -5,5 +5,9 @@ edition = "2021"
 authors = ["Your Name <your.email@example.com>"]
 description = "A compression algorithm implementation in Rust"
 
+[lib]
+name = "compression_algorithm"
+crate-type = ["lib"]
+
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
