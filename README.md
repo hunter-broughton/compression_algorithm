@@ -8,8 +8,10 @@ This project is a tribute to the fictional Pied Piper compression company from t
 
 **The Pied Piper Vision**: Ultra-efficient compression that would make Dinesh proud and leave Gilfoyle impressed.
 
+<!-- Uncomment when you add the hero image:
 ![Pied Piper Compression Demo](screenshots/hero-demo.png)
 _Multi-algorithm compression suite with cyberpunk-themed web interface_
+-->
 
 ---
 
@@ -214,8 +216,10 @@ _Cyberpunk-themed compression interface with real-time statistics_
 
 ### File Upload Interface (localhost:5001)
 
+<!-- Uncomment when you add the file upload screenshot:
 ![File Upload Interface](screenshots/file-upload.png)
 _Drag-and-drop file compression with live feedback_
+-->
 
 - Drag-and-drop file upload
 - Real-time compression feedback
@@ -225,8 +229,10 @@ _Drag-and-drop file compression with live feedback_
 
 ### CLI Tool in Action
 
+<!-- Uncomment when you add the CLI screenshot:
 ![CLI Compression Example](screenshots/cli-example.png)
 _Command-line compression showing performance metrics_
+-->
 
 ## Troubleshooting
 
