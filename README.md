@@ -200,7 +200,7 @@ cargo run -- -i document.txt -a huffman  # ~50-70% compression
 cargo run -- -i source_code.rs -a lz77   # ~40-60% compression
 ```
 
-## 🎨 Web Interface Features
+## Web Interface Features
 
 ### Main Leptos App (localhost:3000)
 
