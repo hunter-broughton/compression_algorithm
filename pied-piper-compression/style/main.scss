@@ -1,5 +1,5 @@
 // Cyberpunk Pied Piper Theme
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fira+Code:wght@300;400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fira+Code:wght@300;400;500&display=swap");
 
 :root {
   --primary-green: #00ff41;
@@ -22,7 +22,7 @@
 }
 
 body {
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
   color: var(--text-primary);
   min-height: 100vh;
@@ -35,18 +35,29 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  
+
   &::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+    background: radial-gradient(
+        circle at 20% 50%,
+        rgba(0, 255, 65, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(0, 212, 255, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 80%,
+        rgba(255, 0, 110, 0.1) 0%,
+        transparent 50%
+      );
     pointer-events: none;
     z-index: -1;
   }
@@ -61,14 +72,14 @@ body {
 }
 
 .title-glitch {
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   font-size: 3.5rem;
   font-weight: 900;
   color: var(--text-primary);
   text-shadow: var(--shadow-glow);
   position: relative;
   display: inline-block;
-  
+
   &::before,
   &::after {
     content: attr(data-text);
@@ -77,13 +88,13 @@ body {
     width: 100%;
     height: 100%;
   }
-  
+
   &::before {
     animation: glitch-1 0.5s infinite ease-in-out alternate-reverse;
     color: var(--cyber-blue);
     z-index: -1;
   }
-  
+
   &::after {
     animation: glitch-2 0.5s infinite ease-in-out alternate-reverse;
     color: var(--neon-pink);
@@ -142,10 +153,16 @@ body {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  
-  &.red { background: #ff5f56; }
-  &.yellow { background: #ffbd2e; }
-  &.green { background: #27ca3f; }
+
+  &.red {
+    background: #ff5f56;
+  }
+  &.yellow {
+    background: #ffbd2e;
+  }
+  &.green {
+    background: #27ca3f;
+  }
 }
 
 .terminal-body {
@@ -175,16 +192,16 @@ body {
   border-radius: 4px;
   padding: 1rem;
   color: var(--text-primary);
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-size: 0.9rem;
   resize: vertical;
-  
+
   &:focus {
     outline: none;
     border-color: var(--cyber-blue);
     box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
   }
-  
+
   &::placeholder {
     color: rgba(0, 255, 65, 0.5);
   }
@@ -197,12 +214,16 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(45deg, var(--secondary-green), var(--primary-green));
+  background: linear-gradient(
+    45deg,
+    var(--secondary-green),
+    var(--primary-green)
+  );
   border: none;
   padding: 1rem 2rem;
   border-radius: 4px;
   color: var(--bg-darker);
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
@@ -210,12 +231,12 @@ body {
   letter-spacing: 1px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 255, 65, 0.5);
   }
-  
+
   &.processing {
     animation: pulse 1.5s infinite;
     cursor: not-allowed;
@@ -232,7 +253,7 @@ body {
 
 .result-text {
   color: var(--cyber-blue);
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   white-space: pre-wrap;
 }
 
@@ -247,7 +268,7 @@ body {
 }
 
 .stats-title {
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   color: var(--cyber-blue);
   font-size: 1.1rem;
   margin-bottom: 1rem;
@@ -271,7 +292,7 @@ body {
 .stat-value {
   color: var(--primary-green);
   font-weight: 500;
-  
+
   &.online {
     color: var(--primary-green);
     text-shadow: 0 0 5px var(--primary-green);
@@ -285,7 +306,7 @@ body {
   border-top: 1px solid var(--border-cyber);
   color: var(--text-secondary);
   font-size: 0.8rem;
-  
+
   .copyright {
     margin-top: 0.5rem;
     color: rgba(255, 255, 255, 0.6);
@@ -336,7 +357,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -350,12 +372,213 @@ body {
     grid-template-columns: 1fr;
     padding: 1rem;
   }
-  
+
   .title-glitch {
     font-size: 2.5rem;
   }
-  
+
   .terminal-body {
     padding: 1rem;
+  }
+}
+
+// Tab Navigation Styles
+.tab-navigation {
+  display: flex;
+  border-bottom: 2px solid var(--border-cyber);
+  background: rgba(0, 255, 65, 0.05);
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: "Orbitron", monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+
+  &:hover {
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--primary-green);
+  }
+
+  &.active {
+    background: rgba(0, 255, 65, 0.2);
+    color: var(--primary-green);
+    border-bottom: 3px solid var(--primary-green);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(0, 255, 65, 0.1),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+// Tab Content Styles
+.tab-content {
+  width: 100%;
+  min-height: 400px;
+}
+
+// File Upload Styles
+.file-upload-area {
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.file-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.file-upload-label {
+  display: block;
+  padding: 1rem;
+  background: rgba(0, 255, 65, 0.1);
+  border: 2px dashed var(--border-cyber);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Fira Code", monospace;
+  color: var(--text-secondary);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(0, 255, 65, 0.2);
+    border-color: var(--primary-green);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+
+  &::before {
+    content: "📁 ";
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+// Download Section Styles
+.download-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(45deg, var(--cyber-blue), var(--neon-pink));
+  border: none;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-family: "Orbitron", monospace;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+// Enhanced button states
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+// File type indicator
+.file-upload-label[data-file-selected="true"] {
+  background: rgba(0, 255, 65, 0.3);
+  border-color: var(--secondary-green);
+  color: var(--primary-green);
+
+  &::before {
+    content: "✓ ";
+    color: var(--primary-green);
+  }
+}
+
+// File upload info section
+.file-upload-info {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid var(--cyber-blue);
+  border-radius: 8px;
+  text-align: center;
+
+  h3 {
+    color: var(--cyber-blue);
+    margin-bottom: 1rem;
+    font-family: "Orbitron", monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
   }
 }

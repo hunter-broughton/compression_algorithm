@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Compression Test</title>
+    <style>
+      body {
+        font-family: "Courier New", monospace;
+        background: #0a0a0a;
+        color: #00ff41;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #1a1a1a;
+        padding: 2rem;
+        border: 2px solid #00ff41;
+        border-radius: 8px;
+      }
+      .upload-area {
+        border: 2px dashed #00ff41;
+        padding: 2rem;
+        text-align: center;
+        margin: 1rem 0;
+        border-radius: 8px;
+      }
+      input[type="file"] {
+        background: #333;
+        color: #00ff41;
+        border: 1px solid #00ff41;
+        padding: 0.5rem;
+        border-radius: 4px;
+        width: 100%;
+      }
+      button {
+        background: #00ff41;
+        color: #000;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 1rem 0;
+      }
+      button:hover {
+        background: #00cc33;
+      }
+      button:disabled {
+        background: #666;
+        cursor: not-allowed;
+      }
+      .result {
+        background: #2a2a2a;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+        border-left: 4px solid #00ff41;
+      }
+      .download-link {
+        display: inline-block;
+        background: #0066cc;
+        color: white;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Pied Piper File Compression</h1>
+      <p>
+        Upload a text file to compress it using our Huffman compression
+        algorithm.
+      </p>
+
+      <div class="upload-area">
+        <input
+          type="file"
+          id="fileInput"
+          accept=".txt,.csv,.json,.xml,.html,.css,.js,.py,.rs,.md,.log"
+        />
+        <p>Select a text file to compress</p>
+      </div>
+
+      <button id="uploadBtn" onclick="uploadFile()" disabled>
+        COMPRESS FILE
+      </button>
+
+      <div id="result" style="display: none"></div>
+    </div>
+
+    <script>
+      const fileInput = document.getElementById("fileInput");
+      const uploadBtn = document.getElementById("uploadBtn");
+      const result = document.getElementById("result");
+
+      fileInput.addEventListener("change", function () {
+        uploadBtn.disabled = !this.files.length;
+      });
+
+      async function uploadFile() {
+        const file = fileInput.files[0];
+        if (!file) {
+          alert("Please select a file first!");
+          return;
+        }
+
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "COMPRESSING...";
+        result.style.display = "none";
+
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await fetch(
+            "http://localhost:5001/api/upload-compress",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+
+            result.innerHTML = `
+                        <div class="result">
+                            <h3>✅ Compression Successful!</h3>
+                            <p><strong>Original File:</strong> ${
+                              data.original_filename
+                            }</p>
+                            <p><strong>Original Size:</strong> ${
+                              data.original_size
+                            } bytes</p>
+                            <p><strong>Compressed Size:</strong> ${
+                              data.compressed_size
+                            } bytes</p>
+                            <p><strong>Compression Ratio:</strong> ${data.compression_ratio.toFixed(
+                              2
+                            )}%</p>
+                            <p><strong>Space Saved:</strong> ${
+                              data.original_size - data.compressed_size
+                            } bytes</p>
+                            <a href="http://localhost:5001/api/download/${
+                              data.file_id
+                            }" 
+                               class="download-link" 
+                               download="${data.compressed_filename}">
+                                📥 DOWNLOAD COMPRESSED FILE
+                            </a>
+                        </div>
+                    `;
+            result.style.display = "block";
+          } else {
+            const error = await response.json();
+            result.innerHTML = `
+                        <div class="result">
+                            <h3>❌ Error</h3>
+                            <p>${error.error}</p>
+                        </div>
+                    `;
+            result.style.display = "block";
+          }
+        } catch (error) {
+          result.innerHTML = `
+                    <div class="result">
+                        <h3>❌ Network Error</h3>
+                        <p>Failed to connect to the compression server. Make sure the Flask server is running on port 5001.</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+          result.style.display = "block";
+        }
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "COMPRESS FILE";
+      }
+    </script>
+  </body>
+</html>

@@ -27,15 +27,23 @@ fn main() {
             .value_name("MODE")
             .help("Mode: compress or decompress")
             .default_value("compress"))
+        .arg(Arg::new("algorithm")
+            .short('a')
+            .long("algorithm")
+            .value_name("ALGORITHM")
+            .help("Compression algorithm: huffman, lz77, or rle")
+            .default_value("huffman"))
         .get_matches();
 
     let input_file = matches.get_one::<String>("input").unwrap();
     let output_file = matches.get_one::<String>("output");
     let mode = matches.get_one::<String>("mode").unwrap();
+    let algorithm = matches.get_one::<String>("algorithm").unwrap();
 
     println!("Compression Algorithm v0.1.0");
     println!("Input file: {}", input_file);
     println!("Mode: {}", mode);
+    println!("Algorithm: {}", algorithm);
 
     if !Path::new(input_file).exists() {
         eprintln!("Error: Input file '{}' does not exist", input_file);

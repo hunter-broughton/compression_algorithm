@@ -1,0 +1,8 @@
+Hello, world! This is a sample text file for testing the Pied Piper compression algorithm. 
+The quick brown fox jumps over the lazy dog. 
+This text should compress well with Huffman coding because it has repeated characters and patterns.
+Let's see how well our compression algorithm performs on this sample data!
+This is additional text to make the file larger and test compression efficiency.
+The more text we have, the better Huffman compression typically performs.
+Repeated words and characters will help demonstrate the compression ratio.
+Hello again! The quick brown fox jumps over the lazy dog once more.

@@ -6,6 +6,11 @@ use leptos_router::{
     StaticSegment,
 };
 
+#[cfg(feature = "hydrate")]
+use wasm_bindgen::prelude::*;
+#[cfg(feature = "hydrate")]
+use web_sys;
+
 #[cfg(feature = "ssr")]
 use compression_algorithm::compression::{huffman::HuffmanCoding, CompressionAlgorithm};
 
@@ -36,6 +41,13 @@ pub async fn compress_text(text: String) -> Result<String, ServerFnError> {
         }
         Err(e) => Err(ServerFnError::ServerError(format!("Compression failed: {}", e))),
     }
+}
+
+#[server(UploadAndCompress, "/api")]
+pub async fn upload_and_compress(file_data: String, filename: String) -> Result<String, ServerFnError> {
+    // This will be handled by our Python Flask server
+    // For now, we'll return a message indicating to use the file upload interface
+    Ok(format!("File upload should be handled by the Flask server at http://localhost:5000/api/upload-compress"))
 }
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
@@ -83,7 +95,7 @@ pub fn App() -> impl IntoView {
 /// Renders the home page of your application.
 #[component]
 fn HomePage() -> impl IntoView {
-    // State for file compression
+    // State for text compression
     let compression_result = RwSignal::new(None::<String>);
     let file_content = RwSignal::new(String::new());
     let is_processing = RwSignal::new(false);
@@ -152,7 +164,7 @@ fn HomePage() -> impl IntoView {
                                     });
                                 }
                             >
-                                {move || if is_processing.get() { "PROCESSING..." } else { "COMPRESS" }}
+                                {move || if is_processing.get() { "PROCESSING..." } else { "COMPRESS TEXT" }}
                             </button>
                         </div>
 
@@ -164,6 +176,16 @@ fn HomePage() -> impl IntoView {
                                 </div>
                             </div>
                         })}
+                        
+                        <div class="file-upload-info">
+                            <h3>"FILE COMPRESSION AVAILABLE!"</h3>
+                            <p>"For file uploads and downloads, use our dedicated interface:"</p>
+                            <a href="http://localhost:5001/" 
+                               target="_blank" 
+                               class="btn-secondary">
+                                "🗂️ OPEN FILE COMPRESSION TOOL"
+                            </a>
+                        </div>
                     </div>
                 </div>
 
