@@ -59,12 +59,20 @@ fn main() {
         }
     };
 
-    // Test Huffman implementation
-    let huffman = compression::huffman::HuffmanCoding;
+    // Select the compression algorithm
+    let compressor: Box<dyn CompressionAlgorithm> = match algorithm.as_str() {
+        "huffman" => Box::new(compression::huffman::HuffmanCoding),
+        "lz77" => Box::new(compression::lz77::LZ77),
+        "rle" => Box::new(compression::rle::RunLengthEncoding),
+        _ => {
+            eprintln!("Unknown algorithm: {}. Available algorithms: huffman, lz77, rle", algorithm);
+            std::process::exit(1);
+        }
+    };
     
     match mode.as_str() {
         "compress" => {
-            println!("Testing Huffman compression on {} bytes of data", data.len());
+            println!("Starting {} compression on {} bytes of data", algorithm, data.len());
             
             // Show a preview of the text if it's printable
             if data.len() <= 100 && data.iter().all(|&b| b >= 32 && b <= 126 || b == b'\n' || b == b'\r' || b == b'\t') {
@@ -72,7 +80,7 @@ fn main() {
                 println!("Text content: {:?}", text);
             }
             
-            match huffman.compress(&data) {
+            match compressor.compress(&data) {
                 Ok(compressed) => {
                     println!("Compression test completed!");
                     
@@ -101,7 +109,32 @@ fn main() {
             }
         },
         "decompress" => {
-            println!("Decompression not yet implemented");
+            println!("Starting {} decompression on {} bytes of data", algorithm, data.len());
+            
+            match compressor.decompress(&data) {
+                Ok(decompressed) => {
+                    println!("Decompression test completed!");
+                    
+                    // Save to output file if specified
+                    if let Some(output_path) = output_file {
+                        match fs::write(output_path, &decompressed) {
+                            Ok(()) => {
+                                println!("Decompressed data saved to '{}'", output_path);
+                                println!("Compressed size: {} bytes", data.len());
+                                println!("Decompressed size: {} bytes", decompressed.len());
+                            },
+                            Err(e) => {
+                                eprintln!("Error writing decompressed file '{}': {}", output_path, e);
+                                std::process::exit(1);
+                            }
+                        }
+                    } else {
+                        println!("No output file specified. Use -o to save decompressed data.");
+                        println!("Decompressed data size: {} bytes", decompressed.len());
+                    }
+                },
+                Err(e) => eprintln!("Decompression failed: {}", e),
+            }
         },
         _ => {
             eprintln!("Invalid mode: {}. Use 'compress' or 'decompress'", mode);
